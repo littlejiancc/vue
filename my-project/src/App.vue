@@ -1,25 +1,31 @@
 <template>
   <div id="app">
-    <div>
-      123
-    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data(){
+    return{
+      loginIn:null
+    }
+  },
+  created(){
+    const token = sessionStorage.getItem("token");
+    if(!token)return this.$router.push('/login')
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+*{
+  box-sizing: border-box;
 }
+  html,body{
+    margin: 0;
+    padding: 0;
+    background: #f5f6f7;
+  }
 </style>
