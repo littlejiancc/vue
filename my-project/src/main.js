@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from "axios"
 
 Vue.prototype.$http = axios;
-
+Vue.prototype.rootUrl = '/api';
 
 Vue.config.productionTip = false
 
