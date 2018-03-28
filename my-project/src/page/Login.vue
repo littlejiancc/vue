@@ -6,16 +6,16 @@
       <div>
           <div class="input">
             <div>账号：</div>
-            <div><el-input type="text" placeholder="注册邮箱和客服账号"  v-model="accountInput"></el-input></div>
+            <div><el-input type="text" placeholder="注册邮箱和客服账号"  v-model="accountInput" clearable></el-input></div>
           </div>
           <div class="input">
             <div>密码：</div>
-            <div><el-input type="password" placeholder="6-16个字符" :minlength="6" :maxlength="16" v-model="passwordInput"></el-input></div>
+            <div><el-input type="password" placeholder="6-16个字符" :minlength="6" :maxlength="16" v-model="passwordInput" clearable></el-input></div>
           </div>
           <div class="input">
             <div>域名：</div>
             <div>
-              <el-input v-model="httpInput" type="text">
+              <el-input v-model="domainInput" type="text" clearable>
                 <template slot="append">.qiyukf.com</template>
               </el-input></div>
           </div>
@@ -31,13 +31,13 @@
           content="忘记密码请联系企业超级管理员重置密码超级管理员忘记密码可尝试">
           <span slot="reference">无法登录</span>
         </el-popover>
-        
+
       </div>
   </SignMain>
   <footer>还没有账号? <router-link class="register" to="/regist">立即注册</router-link></footer>
   <Footer />
 </div>
-  
+
 </template>
 
 <script>
@@ -51,19 +51,24 @@ import SignMain from "../components/SignMain";
         loading:false,
         accountInput:"",
         passwordInput:"",
-        httpInput:"",
+        domainInput:"",
         checked:false,
       }
     },
     methods:{
         loginClick(){
-          const {accountInput,passwordInput,httpInput,checked} = this;
+          const {accountInput,passwordInput,domainInput,checked} = this;
           // if(!accountInput)return this.$message('账号不能为空！');
           // if(!passwordInput)return this.$message('密码不能为空！');
           // if(!httpInput)return this.$message('域名不能为空！');
-          const data = {accountInput,passwordInput,httpInput,checked}
+          const data = {account:accountInput,password:passwordInput,companyDomain:domainInput,remember_me:checked}
           console.log(data);
           this.loading = true;
+          this.$http.post(this.rootUrl+'/user/login', data).then(function (data) {
+            console.log(data.data)
+          }, function (err) {
+            console.log(err)
+          })
           setTimeout(e=>{
             sessionStorage.setItem("token","1321317")
             this.$router.push('/');
@@ -73,8 +78,8 @@ import SignMain from "../components/SignMain";
     },
     computed:{
       disabled(){
-        const {accountInput,passwordInput,httpInput} = this;
-        if(!accountInput||!passwordInput||!httpInput)return true;
+        const {accountInput,passwordInput,domainInput} = this;
+        if(!accountInput||!passwordInput||!domainInput)return true;
         return false;
       }
     },
@@ -83,8 +88,7 @@ import SignMain from "../components/SignMain";
 </script>
 
 <style scoped>
-  
-  
+
   .title{
     font-size: 34px;
     color: #373d40;

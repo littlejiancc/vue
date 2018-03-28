@@ -1,7 +1,7 @@
 <template>
   <header>
     <div>
-      <img src="../images/wangyiqiyu.png">
+      <img src="../assets/images/wangyiqiyu.png">
       <span><slot></slot></span>
     </div>
   </header>
@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    
+
   }
 </script>
 
