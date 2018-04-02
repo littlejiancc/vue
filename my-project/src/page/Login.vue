@@ -64,16 +64,23 @@ import SignMain from "../components/SignMain";
           const data = {account:accountInput,password:passwordInput,companyDomain:domainInput,remember_me:checked}
           console.log(data);
           this.loading = true;
-          this.$http.post(this.rootUrl+'/user/login', data).then(function (data) {
-            console.log(data.data)
-          }, function (err) {
-            console.log(err)
-          })
-          setTimeout(e=>{
+          this.$http.post(this.rootUrl+'/user/login', data).then(data => {
+            console.log(data.data);
+            if (data.data.code == '200'){
+              sessionStorage.setItem("token",data.data.token);
+              this.$router.push('/');
+            }else {
+              this.$message.error('帐号、密码或域名有误!');
+              this.loading = false;
+            }
+          }).catch(function (err) {
+            console.log(err);
+          });
+         /* setTimeout(e=>{
             sessionStorage.setItem("token","1321317")
             this.$router.push('/');
             return;
-          },2000)
+          },2000)*/
         }
     },
     computed:{
