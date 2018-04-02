@@ -131,5 +131,4 @@ import SignMain from "../components/SignMain";
     text-decoration: none;
     color: #4291e6;
   }
-
 </style>
