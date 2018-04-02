@@ -1,47 +1,44 @@
 <template>
     <div>
-        <div id="regist">
-            <SignHeader>注册获取专业版试用</SignHeader>
-            <SignMain>
-                <div class="title">注册网易七鱼</div>
-                <el-steps align-center :active="active" finish-status="success">
-                <el-step title="验证手机号"></el-step>
-                <el-step title="创建客服平台"></el-step>
-                <el-step title="注册成功"></el-step>
-                </el-steps>
-                <!-- <component :is="componentId"></component> -->
-                <div v-if="active==0">
-                    <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic regist-input">
+        <SignHeader>注册获取专业版试用</SignHeader>
+        <SignMain>
+            <div class="title">注册网易七鱼</div>
+            <el-steps align-center :active="active" finish-status="success">
+            <el-step title="验证手机号"></el-step>
+            <el-step title="创建客服平台"></el-step>
+            <el-step title="注册成功"></el-step>
+            </el-steps>
+            <!-- <component :is="componentId"></component> -->
+            <div v-if="active==0">
+                <div class="regist-input">
+                    <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
                         <el-form-item
                             prop="phone"
-                            label="手机号"
-                            :rules="[
-                                { required: true, message: '请输入手机号', trigger: 'blur' },
-                                { pattern:'^(1[3,4,5,7,8])\\d{9}$', message: '请输入正确的手机号格式', trigger: 'blur,change' }
-                            ]"
+                            label="手机号："
+                            :rules="rules"
                         >
-                        <el-input v-model="dynamicValidateForm.phone" placeholder="请输入手机号"></el-input>
+                            <el-input v-model="dynamicValidateForm.phone" placeholder="请输入11位手机号"></el-input>
                         </el-form-item>
                     </el-form>
-                        <div class="input code-input">
-                            <div>验证码：</div>
-                            <div><el-input placeholder="请输入4位验证码" type="text"  v-model="codeInput"></el-input></div>
-                            <div><el-button @click="sendCode" type="primary">发送验证码</el-button></div>
-                        </div>
-                    <el-button @click="nextStep"  type="primary">下一步</el-button>
+                    <div class="input code-input">
+                        <div class="el-form-item__label"> 验证码：</div>
+                        <div><el-input placeholder="请输入4位验证码" type="text"  v-model="codeInput"></el-input></div>
+                        <div><el-button @click="sendVerifyCode"  type="primary" :disabled="disabled">{{sendCode}}</el-button></div>
+                    </div>
                 </div>
-                <div v-if="active==1">
-                    这是步骤2
-                    <el-button @click="nextStep"  type="primary">下一步</el-button>
-                </div>
-                <div v-if="active==2">
-                    这是步骤3
-                    <el-button @click="nextStep"  type="primary">完成</el-button>
-                </div>
-            </SignMain>
-            <footer>已有账号? <router-link class="register" to="/login">立即登录</router-link></footer>
-            <Footer />
-        </div>
+                <el-button @click="next"  type="primary" :disabled="disabled2">下一步</el-button>
+            </div>
+            <div v-if="active==1">
+                这是步骤2
+                <el-button @click="next"  type="primary">下一步</el-button>
+            </div>
+            <div v-if="active==2">
+                这是步骤3
+                <el-button @click="next"  type="primary">完成</el-button>
+            </div>
+        </SignMain>
+        <footer>已有账号? <router-link class="register" to="/login">立即登录</router-link></footer>
+        <Footer />
     </div>
 </template>
 
@@ -57,27 +54,51 @@ import SignMain from "../components/SignMain";
                 active: 0,
                 mobileInput:"",
                 codeInput:"",
+                sendCode:"发送验证码",
                 dynamicValidateForm: {
-                  phone: ''
-              }
+                    phone: ''
+                },
+                rules:[
+                    { required: true, message: '请输入手机号', trigger: 'blur' },
+                    { pattern: '^(1[3,4,5,7,8])\\d{9}$', message: '请输入正确的手机号格式', trigger: 'blur,change' }
+                ]
             }
         },
         methods:{
-            nextStep() {
-                  if (this.active++ > 2) this.active = 0;
-              },
-              sendCode() {
-                this.$http.post(this.rootUrl+'/user/login', data).then(data => {
-                  if (data.data.code == '200'){
+            next() {
 
-                  }else {
+                if (this.active++ > 2) this.active = 0;
 
-                  }
-                }).catch(function (err) {
-                  console.log(err);
-                });
-              }
-        }
+            },
+            sendVerifyCode(){
+                let count = 60;
+                this.sendCode = ""+count+"秒后重新发送";
+                const timer = setInterval(()=>{
+                    if(count===0)  {
+                        this.sendCode = "发送验证码";
+                        return clearInterval(timer);
+                    };
+                    count--;
+                    this.sendCode = ""+count+"秒后重新发送";
+                },1000)
+
+            }
+        },
+        computed:{
+            disabled(){
+                const phone = this.dynamicValidateForm.phone;
+                const rules = /^(1[3,4,5,7,8])\d{9}$/;
+                const isMatched = rules.test(phone);
+                if(!phone || !isMatched)return true;
+                return false;
+            },
+            disabled2(){
+                const phone = this.dynamicValidateForm.phone;
+                const codeInput = this.codeInput;
+                if(!codeInput || !phone)return true;
+                return false;
+            }
+        },
     }
 </script>
 
@@ -128,6 +149,15 @@ import SignMain from "../components/SignMain";
     text-decoration: none;
     color: #4291e6;
   }
-
-
+  .el-input__inner{
+    width: 80%;
+}
+    .el-form-item__label{
+        margin-left: 10px;
+    }
+    .el-form-item__label:before{
+        content: '*';
+        color: #f56c6c;
+        margin-right: 2px;
+    }
 </style>

@@ -24,7 +24,7 @@
     background-color: #fff;
   }
   main>div{
-    width: 400px;
+    width: 450px;
     margin: 0 auto;
   }
 
