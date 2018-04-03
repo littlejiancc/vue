@@ -65,7 +65,7 @@ import SignMain from "../components/SignMain";
           console.log(data);
           this.loading = true;
           this.$router.push('/');
-          /*this.$http.post(this.rootUrl+'/user/login', data).then(data => {
+          this.$http.post(this.rootUrl+'/user/login', data).then(data => {
             console.log(data.data);
             if (data.data.code == '200'){
               sessionStorage.setItem("token",data.data.token);
@@ -76,7 +76,7 @@ import SignMain from "../components/SignMain";
             }
           }).catch(function (err) {
             console.log(err);
-          });*/
+          });
          /* setTimeout(e=>{
             sessionStorage.setItem("token","1321317")
             this.$router.push('/');

@@ -70,8 +70,11 @@ import SignMain from "../components/SignMain";
                 if (this.active++ > 2) this.active = 0;
 
             },
+            //发送验证码
             sendVerifyCode(){
-                let count = 60;
+                const phone = this.dynamicValidateForm.phone;
+                const data ={phone:phone};
+                    let count = 60;
                 this.sendCode = ""+count+"秒后重新发送";
                 const timer = setInterval(()=>{
                     if(count===0)  {
@@ -81,7 +84,20 @@ import SignMain from "../components/SignMain";
                     count--;
                     this.sendCode = ""+count+"秒后重新发送";
                 },1000)
-
+                if (count != 60){
+                    this.$http.post(this.rootUrl+'/regist/sendCode', data).then(data => {
+                        console.log(data.data);
+                        if (data.data.code == '200'){
+                            sessionStorage.setItem("token",data.data.token);
+                            this.$router.push('/');
+                        }else {
+                            this.$message.error('帐号、密码或域名有误!');
+                            this.loading = false;
+                        }
+                    }).catch(function (err) {
+                        console.log(err);
+                    });
+                }
             }
         },
         computed:{
