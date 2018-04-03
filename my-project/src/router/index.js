@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from "../page/Home";
 import Login from "../page/Login";
 import Regist from "../page/Regist";
+import HomeIndex from "../page/HomeIndex";
+import WorkReport from "../page/WorkReport";
 
 Vue.use(Router)
 
@@ -10,8 +12,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      component: Home,
+      children:[
+        {
+          path:"",
+          name:"HomeIndex",
+          component:HomeIndex
+        },{
+          path:"workReport",
+          name:"WorkReport",
+          component:WorkReport
+        }
+      ]
     },{
       path: '/login',
       name: 'Login',

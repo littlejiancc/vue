@@ -63,7 +63,7 @@ import SignMain from "../components/SignMain";
           // if(!passwordInput)return this.$message('密码不能为空！');
           // if(!httpInput)return this.$message('域名不能为空！');
           const data = {account:accountInput,password:passwordInput,companyDomain:domainInput,remember_me:checked}
-          console.log(data);
+          // console.log(data);
           this.loading = true;
           this.$http.post(this.rootUrl+'/user/login', data).then(data => {
             console.log(data.data);
