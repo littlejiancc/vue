@@ -28,4 +28,15 @@ export default {
     padding: 0;
     background: #f5f6f7;
   }
+  h1,h2,h3,h4,h5,h6,ul,li{
+    padding: 0;
+    margin: 0;
+  }
+  li{
+    list-style: none;
+  }
+  a{
+        text-decoration: none;
+        color: inherit;
+    }
 </style>

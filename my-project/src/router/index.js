@@ -5,6 +5,7 @@ import Login from "../page/Login";
 import Regist from "../page/Regist";
 import HomeIndex from "../page/HomeIndex";
 import WorkReport from "../page/WorkReport";
+import Service from "../page/Service";
 
 Vue.use(Router)
 
@@ -22,6 +23,10 @@ export default new Router({
           path:"workReport",
           name:"WorkReport",
           component:WorkReport
+        },{
+          path:"service",
+          name:"Service",
+          component:Service
         }
       ]
     },{
