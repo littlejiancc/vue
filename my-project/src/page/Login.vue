@@ -4,23 +4,24 @@
   <SignMain>
     <div class="title">登录网易七鱼</div>
       <div>
-          <div class="input">
-            <div>账号：</div>
-            <div><el-input type="text" placeholder="注册邮箱和客服账号"  v-model="accountInput" clearable></el-input></div>
+          <div class="input-login">
+              <el-input placeholder="注册邮箱/客服账号" v-model="accountInput">
+                  <template slot="prepend">账号</template>
+              </el-input>
           </div>
-          <div class="input">
-            <div>密码：</div>
-            <div><el-input type="password" placeholder="6-16个字符" :minlength="6" :maxlength="16" v-model="passwordInput" clearable></el-input></div>
+          <div class="input-login">
+              <el-input placeholder="6-16字符" v-model="passwordInput">
+                  <template slot="prepend">密码</template>
+              </el-input>
           </div>
-          <div class="input">
-            <div>域名：</div>
-            <div>
-              <el-input v-model="domainInput" type="text" clearable>
-                <template slot="append">.qiyukf.com</template>
-              </el-input></div>
+          <div class="input-login">
+              <el-input placeholder="请输入域名" v-model="domainInput">
+                  <template slot="prepend">域名</template>
+                  <template slot="append">.qiyukf.com</template>
+              </el-input>
           </div>
       </div>
-      <el-button @click="loginClick" type="primary" :loading="loading" :disabled="disabled">登录</el-button>
+      <el-button @click="loginClick" type="primary" :loading="loading" :disabled="disabled" style="font-size: 16px">登录</el-button>
       <div class="group-forget">
         <el-checkbox v-model="checked">记住密码</el-checkbox>
         <el-popover
@@ -64,7 +65,6 @@ import SignMain from "../components/SignMain";
           const data = {account:accountInput,password:passwordInput,companyDomain:domainInput,remember_me:checked}
           console.log(data);
           this.loading = true;
-          this.$router.push('/');
           this.$http.post(this.rootUrl+'/user/login', data).then(data => {
             console.log(data.data);
             if (data.data.code == '200'){
@@ -76,6 +76,7 @@ import SignMain from "../components/SignMain";
             }
           }).catch(function (err) {
             console.log(err);
+              this.loading = false;
           });
          /* setTimeout(e=>{
             sessionStorage.setItem("token","1321317")
@@ -104,11 +105,11 @@ import SignMain from "../components/SignMain";
     padding: 35px 0;
     text-align: center;
   }
-  .input{
+ /* .input{
     display: flex;
     align-items: center;
     padding-bottom: 30px;
-  }
+  }*/
   .input>div:nth-of-type(1){
     width: 20%;
   }
@@ -138,5 +139,8 @@ import SignMain from "../components/SignMain";
   .register{
     text-decoration: none;
     color: #4291e6;
+  }
+  .input-login{
+      margin-top: 20px;
   }
 </style>
