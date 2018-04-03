@@ -1,12 +1,16 @@
 <template>
   <el-container>
-    <el-header>
-        <Header @isCollapseClick="isCollapseClick"></Header>
-      </el-header>
-    <el-container>
-      <el-aside width="auto">
+    <el-aside width="auto">
+      <div class="logo">
+          <img :src="isShowImg">
+      </div>
       <Aside :isCollapse="isCollapse"></Aside>
     </el-aside>
+    
+    <el-container>
+      <el-header>
+        <Header @isCollapseClick="isCollapseClick" :isCollapse="isCollapse"></Header>
+      </el-header>
       <el-main>
         <router-view />
       </el-main>
@@ -17,11 +21,14 @@
 <script>
 import Header from "../components/Header";
 import Aside from "../components/Aside";
+import indexLogoHide from  '../assets/images/indexLogoHide.png';
+import indexLogo from  '../assets/images/indexLogo.png';
   export default {
     components:{Header,Aside},
     data () {
       return {
-        isCollapse: false
+        isCollapse: false,
+        isShowImg:indexLogo
       }
     },
     created(){
@@ -31,7 +38,15 @@ import Aside from "../components/Aside";
     methods: {
       
       isCollapseClick(){
+        
         this.isCollapse = !this.isCollapse;
+        if(!this.isCollapse){
+          setTimeout(()=>{
+            this.isShowImg=indexLogo;
+          },300)
+        }else{
+          this.isShowImg=indexLogoHide;
+        }
       }
     }
   }
@@ -42,11 +57,12 @@ import Aside from "../components/Aside";
   *{
     box-sizing: content-box;
   }
-  .el-header, .el-footer {
-    background-color: #B3C0D1;
+  .el-header {
+    background-color: white;
     color: #333;
-    text-align: center;
     line-height: 60px;
+    padding: 0;
+    border-bottom: 1px solid #ddd;
   }
 
   .el-aside {
@@ -54,14 +70,13 @@ import Aside from "../components/Aside";
     color: #333;
     text-align: center;
     line-height: 200px;
-    /* padding-top: 60px; */
+    /* margin-top: 60px; */
   }
 
   .el-main {
-    background-color: #E9EEF3;
+    background-color: white;
     color: #333;
-    text-align: center;
-    line-height: 160px;
+    padding: 0;
   }
 
  .el-container {
@@ -79,10 +94,18 @@ import Aside from "../components/Aside";
     width: 200px;
     min-height: 400px;
   }
-  .el-radio-group{
-    position: absolute;
-    left: 100%;
-    display: flex;
-    height: 60px;
-  }
+  .logo{
+        width: auto;
+        height: 60px;
+        background-color: #5294e0;
+        text-align: left;
+        padding-left: 15px;
+        line-height: 80px;
+    }
+    .logo img{
+        width: auto;
+        overflow: hidden;
+        height: 35px;
+        
+    }
 </style>

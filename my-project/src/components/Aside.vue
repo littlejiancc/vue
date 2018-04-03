@@ -9,6 +9,7 @@
         :collapse="isCollapse"
         :router="true"
       >
+      
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-location"></i>
@@ -22,9 +23,9 @@
             <el-menu-item index="1-3">选项3</el-menu-item>
             
         </el-submenu>
-        <el-menu-item index="2">
+        <el-menu-item index="/Service">
           <i class="el-icon-menu"></i>
-          <span slot="title">导航二</span>
+          <span slot="title">客服管理</span>
         </el-menu-item>
         <el-menu-item index="3">
           <i class="el-icon-document"></i>
@@ -61,8 +62,5 @@
 
 <style scoped>
    
-    a{
-        text-decoration: none;
-        color: inherit;
-    }
+    
 </style>

@@ -1,10 +1,25 @@
 <template>
   <div id="header">
-      <!-- <div class="logo">
-          <img src="../assets/images/indexLogo.png">
-      </div>
-      <div>1233333333333333</div> -->
-      <div @click="isCollapseClick">这里是header</div>
+      <div  @click="isCollapseClick"><i :class="isShow"></i></div>
+      <ul class="list">
+          <li>探索网易七鱼</li>
+          <li>联系客服</li>
+          <li>下载中心</li>
+          <li>消息中心</li>
+          <li>
+            <el-dropdown trigger="click">
+                <span class="el-dropdown-link">
+                    超级管理员<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>切换为客服模式</el-dropdown-item>
+                    <el-dropdown-item>个人信息设置</el-dropdown-item>
+                    <el-dropdown-item>企业帐户管理</el-dropdown-item>
+                    <el-dropdown-item>退出</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+          </li>
+      </ul>
   </div>
 </template>
 
@@ -14,26 +29,43 @@
         isCollapseClick(){
             this.$emit("isCollapseClick");
         }
+    },
+    props:["isCollapse"],
+    computed:{
+        isShow(){
+            if(this.isCollapse)return "el-icon-d-arrow-right";
+            return "el-icon-d-arrow-left";
+            
+            
+        }
     }
   }
 </script>
 
 <style scoped>
-    /* #header{
+    #header{
         height: 100%;
         width: 100%;
-        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        
     }
-    .logo{
-        width: 180px;
-        height: 100%;
-        background-color: #5294e0;
+    #header>div{
+        width: 60px;
+        font-size: 40px;
+        text-align: center;
+        border-right: solid 1px rgb(243, 244, 247);
     }
-    .logo img{
-        width: 123px;
-        height: 35px;
-        padding-left: 26px;
-        padding-top: 15px;
-    } */
+    .list{
+        padding-right: 30px;
+        display: flex;
+    }
+    .list>li{
+        color: #666666;
+        cursor: pointer;
+        font-size: 12px;
+        padding-right: 30px;
+    }
+    
 
 </style>
