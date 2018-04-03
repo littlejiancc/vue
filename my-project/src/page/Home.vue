@@ -3,7 +3,6 @@
     <el-header>
         <Header @isCollapseClick="isCollapseClick"></Header>
       </el-header>
-    
     <el-container>
       <el-aside width="auto">
       <Aside :isCollapse="isCollapse"></Aside>
