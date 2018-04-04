@@ -88,7 +88,7 @@ import indexLogo from  '../assets/images/indexLogo.png';
 
   }
   .el-menu{
-    height: 100%;
+    height: calc(100% - 60px);
   }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
