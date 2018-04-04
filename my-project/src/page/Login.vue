@@ -68,7 +68,8 @@ import SignMain from "../components/SignMain";
           this.$http.post(this.rootUrl+'/user/login', data).then(data => {
             console.log(data.data);
             if (data.data.code == '200'){
-              sessionStorage.setItem("token",data.data.token);
+              const token = data.data.result.token;
+              sessionStorage.setItem("token",token);
               this.$router.push('/');
             }else {
               this.$message.error('帐号、密码或域名有误!');
