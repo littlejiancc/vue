@@ -7,6 +7,12 @@ import HomeIndex from "../page/HomeIndex";
 import WorkReport from "../page/WorkReport";
 import Service from "../page/Service";
 import Knowledge from "../page/Knowledge";
+import Workload from "../page/Workload";
+import RobotDataScreening from "../page/RobotDataScreening";
+import JobContent from "../page/JobContent";
+import HotSpotStatistics from "../page/HotSpotStatistics";
+import ProblemClassifyStatistics from "../page/ProblemClassifyStatistics";
+
 
 Vue.use(Router)
 
@@ -22,8 +28,31 @@ export default new Router({
           component:HomeIndex
         },{
           path:"workReport",
-          name:"WorkReport",
-          component:WorkReport
+          // name:"WorkReport",
+          component:WorkReport,
+          children:[
+            {
+              path:"",
+              name:"Workload",
+              component:Workload
+            },{
+              path:"robotDataScreening",
+              name:"RobotDataScreening",
+              component:RobotDataScreening
+            },{
+              path:"robContent",
+              name:"JobContent",
+              component:JobContent
+            },{
+              path:"hotSpotStatistics",
+              name:"HotSpotStatistics",
+              component:HotSpotStatistics
+            },{
+              path:"problemClassifyStatistics",
+              name:"ProblemClassifyStatistics",
+              component:ProblemClassifyStatistics
+            }
+          ]
         },{
           path:"service",
           name:"Service",
