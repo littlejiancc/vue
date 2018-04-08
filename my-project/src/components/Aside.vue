@@ -17,7 +17,7 @@
           </template>
 
             <el-menu-item index="/">选项1</el-menu-item>
-            <el-menu-item index="/workReport">选项2</el-menu-item>
+            <el-menu-item index="/workReport">工作报表</el-menu-item>
 
 
             <el-menu-item index="1-3">选项3</el-menu-item>
@@ -48,7 +48,7 @@
       },
     props: ['isCollapse'],
     mounted(){
-        this.defaultActive = this.$route.path
+        this.defaultActive ="/"+ this.$route.path.split("/")[1]
     },
     methods:{
     //     handleOpen(key, keyPath) {
@@ -63,5 +63,7 @@
 
 <style scoped>
    
-    
+    li{
+      text-align: left;
+    }
 </style>
