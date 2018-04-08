@@ -10,7 +10,7 @@
               </el-input>
           </div>
           <div class="input-login">
-              <el-input placeholder="6-16字符" v-model="passwordInput">
+              <el-input placeholder="6-16字符" v-model="passwordInput" type="password">
                   <template slot="prepend">密码</template>
               </el-input>
           </div>
