@@ -1,8 +1,11 @@
 <template>
   <div>
     <div>
-        <Title showDate showAllService showExportData>工作量报表</Title>
+        <Title showDate showAllService showExportData title="工作量报表">
+            <div>46</div>
+        </Title>
     </div>
+
       <div class="table"  v-loading="loading">
           <el-table
               :data="tableData"
@@ -74,6 +77,16 @@ import Title from "../components/Title";
             page:1,
             perPage:10,
         };
+      },
+      methods:{
+          pageSizeChange(val){
+              this.perPage = val;
+              this.getUserList();
+          },
+          currentPageChange(val){
+              this.page = val;
+              this.getUserList();
+          },
       },
   }
 </script>

@@ -76,25 +76,32 @@
           >
           </el-pagination>
       </div>
-      <el-dialog title="新增问题" :visible.sync="dialogFormVisible" width="800px" :closeOnClickModal="false" @close="closeDialog('ruleForm')">
+      <el-dialog :title="title" :visible.sync="dialogFormVisible" width="800px" :closeOnClickModal="false" @close="closeDialog('ruleForm')">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm"  label-width="100px" size="small " class="demo-ruleForm">
               <el-form-item label="问题标题" prop="title" class="input-add" >
                   <el-input  v-model="ruleForm.title" placeholder="填写访客可能会问到的问题"></el-input>
               </el-form-item>
               <el-form-item label="相似问题" prop="similar" class="input-add" >
                   <div >
-                      <div class="similar-title">
-                          <el-input  v-model="ruleForm.similar" placeholder="填写此问题的其他问法" style="width: 90%"></el-input>
-                          <el-button type="danger" icon="el-icon-delete" circle></el-button>
+                      <div class="similar-title" v-for="(item,index) in simQuestion" :key="index" style="margin-bottom: 10px">
+                          <el-input   v-model="item.value" placeholder="填写此问题的其他问法" style="width: 90%"></el-input>
+                          <el-button @click="delSimQuestionClick(index)" type="danger" icon="el-icon-delete" circle></el-button>
                       </div>
-                      <el-button type="primary" style="margin-left: 0px;margin-top: 10px" >添加相似问题</el-button>
+                      <el-button @click="addSimQuestionClick" type="primary" style="margin-left: 0px;margin-top: 10px" >添加相似问题</el-button>
                   </div>
               </el-form-item>
               <el-form-item label="答案" prop="answer" class="input-add">
                   <el-input type="textarea" v-model="ruleForm.answer" placeholder="输入标准答案"></el-input>
               </el-form-item>
               <el-form-item label="所属知识点" class="input-add">
-                  <el-button type="primary"> 选择知识点</el-button>
+                  <el-select v-model="value" clearable  placeholder="请选择">
+                      <el-option
+                          v-for="item in options"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                      </el-option>
+                  </el-select>
               </el-form-item>
               <el-form-item label="有效期" class="input-add" prop="period">
                   <el-radio-group v-model="ruleForm.period">
@@ -125,6 +132,7 @@
   export default {
       data() {
           return {
+              title:"新增问题",
               id:'',
               searchInput:'',
               tableData: [],
@@ -136,6 +144,9 @@
               multipleSelection: [],
               delDisable:true,
               label:'',
+              options: [],
+              value: '',
+              simQuestion:[{value:""}],
               ruleForm: {
                   title: '',
                   similar:'',
@@ -160,6 +171,12 @@
           this.getQuestionList();
       },
       methods: {
+          addSimQuestionClick(){
+            this.simQuestion.push({value:""})
+          },
+          delSimQuestionClick(index){
+              this.simQuestion.splice(index,1);
+          },
           searchClick(){
 
           },
@@ -171,6 +188,9 @@
           },
           addQuestion(){
             this.dialogFormVisible = true;
+            this.simQuestion = [{value:""}];
+            this.value = '';
+            this.getPointList();
           },
           editQuestion(row){
 
@@ -190,6 +210,9 @@
               }
           },
           saveQuestion(){
+              console.log(this.simQuestion);
+              const simQuestion = this.simQuestion.map(e=>e.value);
+              console.log(simQuestion);
               const token = sessionStorage.getItem("token");
               let status = 0;
               let startTime;
@@ -241,8 +264,10 @@
           //关闭弹框的事件
           closeDialog(formName){
               this.$refs[formName].resetFields();
+
           },
           cancel(formName){
+              console.log(this.options);
               this.$refs[formName].resetFields();
               this.dialogFormVisible = false;
           },
@@ -291,7 +316,30 @@
                   this.$message.error('服务器错误！');
               })
           },
+          getPointList(){
+              const token = sessionStorage.getItem("token");
+              this.$http({
+                  url:this.rootUrl+'/point/pointList',
+                  method:"post",
+                  headers:{"Authorization":'Bearer '+token},
+                  data:{page:1,perPage:10}
+              }).then(res=>{
+                  if (res.data.code == '200') {
+                      const result = res.data.result;
 
+                      for (let index in result.pointList) {
+                          result.pointList[index].value = result.pointList[index].id;
+                          result.pointList[index].label = result.pointList[index].title;
+                      }
+                      this.options = result.pointList;
+                  }else {
+                      this.options = [];
+                  }
+              }).catch(function (err) {
+                  console.log(err);
+                  this.$message.error('服务器错误！');
+              })
+          },
       }
   }
 </script>

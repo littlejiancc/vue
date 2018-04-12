@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-        <Title showDate>热点问题统计</Title>
+        <Title showDate title="热点问题统计"></Title>
     </div>
      <div style="width: 100%">
         <div style="width: 60%">

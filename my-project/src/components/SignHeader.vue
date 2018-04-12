@@ -20,7 +20,7 @@
     background: white;
   }
   header>div{
-    width: 1180px;
+    width: 80%;
     margin: 0 auto;
     height: 100%;
     padding: 20px 0;

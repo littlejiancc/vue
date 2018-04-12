@@ -43,7 +43,7 @@ export default new Router({
               name:"RobotDataScreening",
               component:RobotDataScreening
             },{
-              path:"robContent",
+              path:"jobContent",
               name:"JobContent",
               component:JobContent
             },{

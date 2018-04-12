@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div><Title class="title">数据总览</Title></div>
+        <div><Title class="title" title="数据总览"></Title></div>
         <div>
             <div style="float: left;width: 100%;margin-left: 40px">
                 <el-card class="box-card">
@@ -72,7 +72,7 @@
 
             </div>
         </div>
-       .<div><Title style="margin:20px 40px">数据总览</Title></div>
+       .<div><Title style="margin:20px 40px" title="数据总览"></Title></div>
         <div id="container" style="min-width:400px;height:400px;margin-left: 40px"></div>
     </div>
 

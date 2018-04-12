@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-        <Title showDate showExportData>机器人服务数据</Title>
+        <Title showDate showExportData title="机器人服务数据"></Title>
     </div>
       <div>
         <div style="float: left;width: 100%">
@@ -61,7 +61,7 @@
         </div>
       </div>
       <div>
-           .<Title>会话量</Title>
+           .<Title title="会话量" ></Title>
       </div>
 
           <div id="container" style="min-width:400px;height:400px"></div>

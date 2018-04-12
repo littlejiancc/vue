@@ -16,7 +16,7 @@
 <script>
   const serviceList=[
     {path:"/workReport",name:"工作量"},
-    {path:"/workReport/robContent",name:"工作质量"}
+    {path:"/workReport/jobContent",name:"工作质量"}
   ];
   const robotList = [
     {path:"/workReport/RobotDataScreening",name:"机器人数据总览"},

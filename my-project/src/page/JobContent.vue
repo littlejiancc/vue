@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <Title showDate showAllService showExportData>工作量报表</Title>
+            <Title showDate showAllService showExportData title="工作质量报表"></Title>
         </div>
         <div class="table"  v-loading="loading">
             <el-table
@@ -80,6 +80,16 @@
                 page:1,
                 perPage:10,
             };
+        },
+        methods:{
+            pageSizeChange(val){
+                this.perPage = val;
+                this.getUserList();
+            },
+            currentPageChange(val){
+                this.page = val;
+                this.getUserList();
+            },
         },
     }
 </script>

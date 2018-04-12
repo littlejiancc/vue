@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-        <Title showDate>问题分类统计</Title>
+        <Title showDate title="问题分类统计"></Title>
     </div>
   </div>
 </template>
