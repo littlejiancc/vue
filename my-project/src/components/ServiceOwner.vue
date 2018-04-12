@@ -70,7 +70,7 @@
         >
         </el-pagination>
       </div>
-      <el-dialog title="新增客服人员" :visible.sync="dialogFormVisible" width="600px" :closeOnClickModal="false" @close="closeDialog('ruleForm')">
+      <el-dialog title="新增客服人员" :visible.sync="dialogFormVisible" width="40%" :closeOnClickModal="false" @close="closeDialog('ruleForm')">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm"  label-width="60px" size="small " class="demo-ruleForm">
               <el-form-item label="账号" prop="account" class="input-add" >
                   <el-input :disabled="accountDisabled"  v-model="ruleForm.account" placeholder="必须为3到10个字母或数字"></el-input>
@@ -164,9 +164,9 @@ export default {
             phone:[
                 { pattern: '^(1[3,4,5,7,8])\\d{9}$', message: '请输入正确的手机号格式', trigger: 'blur,change' }
             ],
-            maxReception: [
+            /*maxReception: [
                 { type: 'number',required: true, message: '最大接待量必须是正整数', trigger: 'blur,change' }
-            ],
+            ],*/
         },
         accountDisabled:false,
         passwordDisabled:false,

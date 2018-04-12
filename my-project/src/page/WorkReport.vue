@@ -21,7 +21,7 @@
   const robotList = [
     {path:"/workReport/RobotDataScreening",name:"机器人数据总览"},
     {path:"/workReport/hotSpotStatistics",name:"热点问题统计"},
-    {path:"/workReport/problemClassifyStatistics",name:"问题分类统计"}
+   /* {path:"/workReport/problemClassifyStatistics",name:"问题分类统计"}*/
   ]
   export default {
     data(){

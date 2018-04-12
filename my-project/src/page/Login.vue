@@ -2,7 +2,7 @@
 <div>
   <SignHeader>账号登录</SignHeader>
   <SignMain>
-    <div class="title">登录网易七鱼</div>
+    <div class="title">账号登录</div>
       <div>
           <div class="input-login">
               <el-input placeholder="注册邮箱/客服账号" v-model="accountInput">
@@ -59,9 +59,6 @@ import SignMain from "../components/SignMain";
     methods:{
         loginClick(){
           const {accountInput,passwordInput,domainInput,checked} = this;
-          // if(!accountInput)return this.$message('账号不能为空！');
-          // if(!passwordInput)return this.$message('密码不能为空！');
-          // if(!httpInput)return this.$message('域名不能为空！');
           const data = {account:accountInput,password:passwordInput,companyDomain:domainInput,remember_me:checked}
           // console.log(data);
           this.loading = true;
@@ -70,7 +67,7 @@ import SignMain from "../components/SignMain";
             if (data.data.code == '200'){
               const token = data.data.result.token;
               sessionStorage.setItem("token",token);
-              this.$router.push('/');
+              this.$router.push('/index');
             }else {
               this.$message.error('帐号、密码或域名有误!');
               this.loading = false;
@@ -79,11 +76,6 @@ import SignMain from "../components/SignMain";
             console.log(err);
               this.loading = false;
           });
-         /* setTimeout(e=>{
-            sessionStorage.setItem("token","1321317")
-            this.$router.push('/');
-            return;
-          },2000)*/
         }
     },
     computed:{

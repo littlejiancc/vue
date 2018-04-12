@@ -1,7 +1,7 @@
 <template>
   <header>
     <div>
-      <img src="../assets/images/wangyiqiyu.png">
+      <img src="../assets/images/line.png">
       <span><slot></slot></span>
     </div>
   </header>

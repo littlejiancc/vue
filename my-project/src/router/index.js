@@ -12,6 +12,9 @@ import RobotDataScreening from "../page/RobotDataScreening";
 import JobContent from "../page/JobContent";
 import HotSpotStatistics from "../page/HotSpotStatistics";
 import ProblemClassifyStatistics from "../page/ProblemClassifyStatistics";
+import Account from "../page/Account";
+import Index from "../page/Index";
+import QuestionStudy from "../page/QuestionStudy";
 
 
 Vue.use(Router)
@@ -59,9 +62,25 @@ export default new Router({
           component:Service
         },
           {
-          path:"knowledge",
-          name:"Knowledge",
-          component:Knowledge
+              path:"knowledge",
+              name:"Knowledge",
+              component:Knowledge
+          },
+          {
+              path:"questionStudy",
+              name:"QuestionStudy",
+              component:QuestionStudy
+          }
+          ,
+          {
+              path:"account",
+              name:"Account",
+              component:Account
+          },
+          {
+              path:"index",
+              name:"Index",
+              component:Index
           }
       ]
     },{

@@ -1,8 +1,8 @@
 <template>
   <div id="header">
-      <div  @click="isCollapseClick"><i :class="isShow"></i></div>
+      <div  @click="isCollapseClick"><i :class="isShow" style="color: #999;font-size: 30px"></i></div>
       <ul class="list">
-          <li>探索网易七鱼</li>
+          <li>探索</li>
           <li>联系客服</li>
           <li>下载中心</li>
           <li>消息中心</li>

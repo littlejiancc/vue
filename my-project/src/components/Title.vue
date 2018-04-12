@@ -1,7 +1,7 @@
 <template>
   <div id="title">
         <h3><slot></slot>
-            <i class="el-icon-info"></i>
+            <i class="el-icon-info" style="font-size: 14px"></i>
         </h3>
         <div>
             <el-button v-if="showDate"   icon="el-icon-date">昨天<i class="el-icon-caret-bottom"></i></el-button>

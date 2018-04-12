@@ -10,11 +10,22 @@
               <el-button type="primary"  @click="addQuestion">添加</el-button>
           </div>
       </div>
+      <div class="btn-delete">
+          <el-button type="primary" icon="el-icon-delete" :disabled="delDisable"></el-button>
+          <label class="selected-label">{{label}}</label>
+      </div>
       <div class="table"  v-loading="loading">
           <el-table
+              ref="multipleTable"
               :data="tableData"
+              tooltip-effect="dark"
               style="width: 100%"
+              @selection-change="handleSelectionChange"
           >
+              <el-table-column
+                  type="selection"
+                  width="55">
+              </el-table-column>
               <el-table-column
                   prop="title"
                   label="问题标题"
@@ -22,7 +33,7 @@
               >
               </el-table-column>
               <el-table-column
-                  prop="point"
+                  prop="knowledgePointId"
                   label="归属知识点"
               >
               </el-table-column>
@@ -34,11 +45,6 @@
               <el-table-column
                   prop="status"
                   label="状态"
-              >
-              </el-table-column>
-              <el-table-column
-                  prop="email"
-                  label="邮箱"
               >
               </el-table-column>
               <el-table-column
@@ -115,6 +121,7 @@
 </template>
 
 <script>
+    import moment from "moment";
   export default {
       data() {
           return {
@@ -126,6 +133,9 @@
               perPage:10,
               loading:false,
               dialogFormVisible:false,
+              multipleSelection: [],
+              delDisable:true,
+              label:'',
               ruleForm: {
                   title: '',
                   similar:'',
@@ -147,7 +157,7 @@
           }
       },
       mounted(){
-          this.getPointList();
+          this.getQuestionList();
       },
       methods: {
           searchClick(){
@@ -167,6 +177,17 @@
           },
           deleteQuestion(row){
 
+          },
+          handleSelectionChange(val) {
+              this.multipleSelection = val;
+              console.log(this.multipleSelection);
+              if (this.multipleSelection.length !=0){
+                  this.delDisable = false;
+                  this.label = '已选中'+this.multipleSelection.length+'项';
+              }else {
+                  this.delDisable = true;
+                  this.label = '';
+              }
           },
           saveQuestion(){
               const token = sessionStorage.getItem("token");
@@ -196,7 +217,7 @@
                           message: '保存成功！',
                           type: 'success'
                       });
-
+                      this.getQuestionList();
                   }else if(res.data.code == '209'){
                       this.$message.error('此标题已存在！');
                   }else {
@@ -225,6 +246,52 @@
               this.$refs[formName].resetFields();
               this.dialogFormVisible = false;
           },
+          //获取问题列表
+          getQuestionList(){
+              this.loading = true;
+              const token = sessionStorage.getItem("token");
+              const {page,perPage} = this;
+              this.$http({
+                  url:this.rootUrl+'/question/list',
+                  method:"post",
+                  headers:{"Authorization":'Bearer '+token},
+                  data:{page,perPage}
+              }).then(res=>{
+                  this.loading = false;
+                  console.log(res);
+                  if (res.data.code == '200') {
+                      const formatString = 'YYYY-MM-DD HH:mm:ss';
+                      const result = res.data.result;
+                      for (let index in result.staQuestionList) {
+                          result.staQuestionList[index].createTime = moment(result.staQuestionList[index].createTime).format(formatString)
+                          if (result.staQuestionList[index].status == 1) {
+                              result.staQuestionList[index].period = '永久有效';
+                              result.staQuestionList[index].status = '有效';
+                          } else {
+                              result.staQuestionList[index].period = moment(result.staQuestionList[index].startTime).format(formatString)+'~'+moment(result.staQuestionList[index].endTime).format(formatString);
+                              if (moment(new Date())>moment(result.staQuestionList[index].endTime)){
+                                  result.staQuestionList[index].status = '失效';
+                              }else {
+                                  result.staQuestionList[index].status = '有效';
+                              }
+                          }
+                          console.log(result.staQuestionList[index].knowledgePointId);
+                          if(!result.staQuestionList[index].knowledgePointId ){
+                              result.staQuestionList[index].knowledgePointId = '--'
+                          }
+                      }
+                      this.tableData = result.staQuestionList;
+                      this.total = result.total;
+                  }else {
+                      this.tableData = null;
+                      this.total = 0;
+                  }
+              }).catch(function (err) {
+                  console.log(err);
+                  this.$message.error('服务器错误！');
+              })
+          },
+
       }
   }
 </script>
@@ -246,5 +313,7 @@
         margin: 20px auto 0 auto;
         width: 600px;
     }
-
+    .btn-delete{
+        padding-left: 40px;
+    }
 </style>

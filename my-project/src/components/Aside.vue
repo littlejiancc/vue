@@ -9,12 +9,12 @@
         :collapse="isCollapse"
         :router="true"
       >
-     <el-menu-item index="3">
+     <el-menu-item index="/index">
          <i class="el-icon-document"></i>
-         <span slot="title">导航三</span>
+         <span slot="title">主页</span>
      </el-menu-item>
      <el-menu-item index="/workReport">
-         <i class="el-icon-menu"></i>
+         <i class="el-icon-picture-outline"></i>
          <span slot="title">工作报表</span>
      </el-menu-item>
      <el-menu-item index="/service">
@@ -23,20 +23,19 @@
      </el-menu-item>
         <el-submenu index="1">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="el-icon-document"></i>
             <span slot="title">知识库</span>
           </template>
             <el-menu-item index="/knowledge">知识库</el-menu-item>
             <el-menu-item index="/workReport">相似词库</el-menu-item>
-            <el-menu-item index="/">选项1</el-menu-item>
-            <el-menu-item index="1-3">问题学习</el-menu-item>
+            <el-menu-item index="/questionStudy">问题学习</el-menu-item>
             
         </el-submenu>
 
 
-        <el-menu-item index="4">
+        <el-menu-item index="/account">
           <i class="el-icon-setting"></i>
-          <span slot="title">导航四</span>
+          <span slot="title">企业账户管理</span>
         </el-menu-item>
       </el-menu>
 </template>

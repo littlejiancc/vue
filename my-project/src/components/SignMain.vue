@@ -14,7 +14,8 @@
 
 <style scoped>
     main{
-    width: 1180px;
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     background: white;
     height: 587px;

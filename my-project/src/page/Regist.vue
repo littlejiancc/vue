@@ -1,8 +1,8 @@
 <template>
     <div>
-        <SignHeader>注册获取专业版试用</SignHeader>
+        <SignHeader>账号注册</SignHeader>
         <SignMain>
-            <div class="title">注册网易七鱼</div>
+            <div class="title">账号注册</div>
             <el-steps align-center :active="active" finish-status="success">
             <el-step title="验证手机号"></el-step>
             <el-step title="创建客服平台"></el-step>
@@ -101,8 +101,8 @@ import SignMain from "../components/SignMain";
                 const code = this.codeInput;
                 const data = {phone:phone,code:code};
                 console.log(data);
-                if (this.active++ > 2) this.active = 0;
-               /* this.$http.post(this.rootUrl+'/regist/codeVerify', data).then(data => {
+                /*if (this.active++ > 2) this.active = 0;*/
+               this.$http.post(this.rootUrl+'/regist/codeVerify', data).then(data => {
                     console.log(data.data);
                     if (data.data.code == '200'){
                         if (this.active++ > 2) this.active = 0;
@@ -113,7 +113,7 @@ import SignMain from "../components/SignMain";
                 }).catch(function (err) {
                     console.log(err);
                     this.loading = false;
-                });*/
+                });
 
             },
             nextSecond() {
@@ -125,8 +125,8 @@ import SignMain from "../components/SignMain";
                 const mobile = this.dynamicValidateForm.phone;
                 const data = {companyName:name,companyDomain:domain,account:account,password:password,mobile:mobile};
                 console.log(data);
-                if (this.active++ > 2) this.active = 0;
-                /*this.$http.post(this.rootUrl+'/regist/saveCompany', data).then(data => {
+                /*if (this.active++ > 2) this.active = 0;*/
+                this.$http.post(this.rootUrl+'/regist/saveCompany', data).then(data => {
                     console.log(data.data);
                     if (data.data.code == '200'){
                         if (this.active++ > 2) this.active = 0;
@@ -143,7 +143,7 @@ import SignMain from "../components/SignMain";
                 }).catch(function (err) {
                     console.log(err);
                     this.loading2 = false;
-                });*/
+                });
             },
             //发送验证码
             sendVerifyCode(){
@@ -183,6 +183,7 @@ import SignMain from "../components/SignMain";
                 this.$http.post(this.rootUrl+'/user/login', data).then(data => {
                     console.log(data.data);
                     if (data.data.code == '200'){
+                        const token = data.data.result.token;
                         sessionStorage.setItem("token",data.data.token);
                         this.$router.push('/');
                     }else {
