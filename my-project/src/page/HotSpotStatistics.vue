@@ -1,7 +1,9 @@
 <template>
   <div>
     <div>
-        <Title showDate title="热点问题统计"></Title>
+        <Title showDate title="热点问题统计">
+            <div>访客提问时，知识库内匹配次数前50的热点问题。</div>
+        </Title>
     </div>
      <div style="width: 100%">
         <div style="width: 60%">

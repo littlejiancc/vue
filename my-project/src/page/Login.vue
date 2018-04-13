@@ -56,12 +56,23 @@ import SignMain from "../components/SignMain";
         checked:false,
       }
     },
-    methods:{
+      mounted: function() {
+          //读取cookie中的账号信息，如果有accountInfo的话，则说明该用户之前勾选了记住密码的功能，则需要自动填上账号密码
+          this.loadAccountInfo();
+      },
+      methods:{
         loginClick(){
           const {accountInput,passwordInput,domainInput,checked} = this;
           const data = {account:accountInput,password:passwordInput,companyDomain:domainInput,remember_me:checked}
-          // console.log(data);
           this.loading = true;
+          const accountInfo = accountInput+"&"+passwordInput+"&"+domainInput;
+          if(checked){
+              console.log("set cookie");
+              this.setCookie('accountInfo',accountInfo,1440*3);
+              console.log(this.getCookie('accountInfo'));
+          }else{
+              this.delCookie("accountInfo");
+          }
           this.$http.post(this.rootUrl+'/user/login', data).then(data => {
             console.log(data.data);
             if (data.data.code == '200'){
@@ -76,7 +87,57 @@ import SignMain from "../components/SignMain";
             console.log(err);
               this.loading = false;
           });
-        }
+        },
+          loadAccountInfo(){
+              let accountInfo = this.getCookie('accountInfo');
+
+              //如果cookie里没有账号信息
+              if(Boolean(accountInfo) == false){
+                  console.log('cookie中没有检测到账号信息！');
+                  return false;
+              }else{
+                  //如果cookie里有账号信息
+                  console.log('cookie中检测到账号信息！现在开始预填写！');
+
+                  console.log(accountInfo.split("&"));
+                  this.accountInput = accountInfo.split("&")[0];
+                  this.passwordInput = accountInfo.split("&")[1];
+                  this.domainInput = accountInfo.split("&")[2];
+              }
+          },
+
+
+
+        setCookie: function(c_name,value,expiremMinutes){
+            var exdate = new Date();
+            exdate.setTime(exdate.getTime() + expiremMinutes * 60 * 1000);
+            document.cookie= c_name + "=" + escape(value)+((expiremMinutes==null) ? "" : ";expires="+exdate.toGMTString());
+        },
+        // 读取cookie
+        getCookie: function(c_name){
+            if (document.cookie.length>0)
+            {
+                var c_start=document.cookie.indexOf(c_name + "=");
+                if (c_start!=-1)
+                {
+                    c_start=c_start + c_name.length+1;
+                    var c_end=document.cookie.indexOf(";",c_start);
+                    if (c_end==-1)
+                        c_end = document.cookie.length
+                    return unescape(document.cookie.substring(c_start, c_end))
+                }
+            }
+            return ""
+        },
+        // 删除cookie
+        delCookie: function(c_name){
+            var exp = new Date();
+            exp.setTime(exp.getTime() - 1);
+            var cval = this.getCookie(c_name);
+            if(cval!=null){
+                document.cookie = c_name + "=" + cval + ";expires=" + exp.toGMTString();
+            }
+        },
     },
     computed:{
       disabled(){

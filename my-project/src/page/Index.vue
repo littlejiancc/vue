@@ -1,6 +1,53 @@
 <template>
     <div>
-        <div><Title class="title" title="数据总览"></Title></div>
+        <div><Title class="title" title="数据总览">
+            <div>
+                <div class="popover-content">
+                    <div class="popover-content-left">正在咨询人数</div>
+                    <div class="popover-content-right">当前正在咨询的访客数量</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">当前在线客服数</div>
+                    <div class="popover-content-right">当前处于可接待状态的客服数量</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">当前排队人数</div>
+                    <div class="popover-content-right">当前处于排队状态的访客数量</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">平均排队时间</div>
+                    <div class="popover-content-right">今日累计开始排队到进入咨询的平均排队时间</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">今日会话量</div>
+                    <div class="popover-content-right">本日累计的会话数量</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">平均会话时长</div>
+                    <div class="popover-content-right">访客进入到会话结束时间间隔的平均值</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">未接入会话量</div>
+                    <div class="popover-content-right">今日累计放弃排队的数量</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">接入率</div>
+                    <div class="popover-content-right">今日累计已接入会话与总会话数的比值</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">相对满意度</div>
+                    <div class="popover-content-right">今日累计满意数量与评价总量的比值</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">匹配提问数</div>
+                    <div class="popover-content-right">机器人能够匹配到的问题数量</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">参评率</div>
+                    <div class="popover-content-right">今日参加评价的数量与接入会话数量的比值</div>
+                </div>
+            </div>
+        </Title></div>
         <div>
             <div style="float: left;width: 100%;margin-left: 40px">
                 <el-card class="box-card">
@@ -72,7 +119,28 @@
 
             </div>
         </div>
-       .<div><Title style="margin:20px 40px" title="数据总览"></Title></div>
+       .<div><Title style="margin:20px 40px" title="今日在线服务数据趋势">
+        <div>
+            <div class="popover-content">
+                <div class="popover-content-left">已接入会话量</div>
+                <div class="popover-content-right">主动来访进入咨询和主动发起的会话总量</div>
+            </div>
+            <div class="popover-content">
+                <div class="popover-content-left">未接入会话量</div>
+                <div class="popover-content-right">累计放弃排队的数量</div>
+            </div>
+            <div class="popover-content">
+                <div class="popover-content-left">会话总量</div>
+                <div class="popover-content-right">产生的会话数量，包含访客来访和主动发起会话两张</div>
+            </div>
+            <div class="popover-content">
+                <div class="popover-content-left">排队量</div>
+                <div class="popover-content-right">所选时间范围内，发生排队的总次数</div>
+            </div>
+
+        </div>
+
+    </Title></div>
         <div id="container" style="min-width:400px;height:400px;margin-left: 40px"></div>
     </div>
 
@@ -192,6 +260,15 @@ require('highcharts/modules/exporting')(Highcharts)
         float: left;
         margin-right: 20px;
     }
-
-
+    .popover-content{
+        padding-bottom: 30px;
+    }
+    .popover-content-left{
+        width: 30%;
+        float: left;
+    }
+    .popover-content-right{
+        width: 70%;
+        float: left;
+    }
 </style>

@@ -5,10 +5,10 @@
               <el-input   v-model="ruleForm.companyName" placeholder="请输入企业名称"></el-input>
           </el-form-item>
           <el-form-item label="企业账户" prop="account" class="input-add" >
-              <el-input  disabled="true" v-model="ruleForm.account" ></el-input>
+              <el-input  :disabled="true" v-model="ruleForm.account" ></el-input>
           </el-form-item>
           <el-form-item label="登录域名" prop="companyDomain" class="input-add" >
-              <el-input  disabled="true" v-model="ruleForm.companyDomain"></el-input>
+              <el-input  :disabled="true" v-model="ruleForm.companyDomain"></el-input>
           </el-form-item>
           <el-form-item label="企业联系人" prop="linkman" class="input-add" >
               <el-input   v-model="ruleForm.linkman" placeholder="请输入企业联系人"></el-input>
@@ -83,6 +83,24 @@
                   if (res.data.code == '200') {
                       const company = res.data.result.company;
                       this.ruleForm = company;
+                  }else {
+                      this.$message.error('服务器错误！');
+                  }
+              }).catch(function (err) {
+                  console.log(err);
+                  this.$message.error('服务器错误！');
+              })
+          },
+          saveAccountInfo(){
+              const token = sessionStorage.getItem("token");
+              this.$http({
+                  url:this.rootUrl+'/company/update',
+                  method:"post",
+                  headers:{"Authorization":'Bearer '+token},
+              }).then(res=>{
+                  console.log(res)
+                  if (res.data.code == '200') {
+
                   }else {
                       this.$message.error('服务器错误！');
                   }

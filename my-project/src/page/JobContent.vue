@@ -1,7 +1,34 @@
 <template>
     <div>
         <div>
-            <Title showDate showAllService showExportData title="工作质量报表"></Title>
+            <Title showDate showAllService showExportData title="工作质量报表">
+                <div>
+                    <div class="popover-content">
+                        <div class="popover-content-left">平均首次响应时间</div>
+                        <div class="popover-content-right">访客首次询问和客服回复时间间隔的平均值</div>
+                    </div>
+                    <div class="popover-content">
+                        <div class="popover-content-left">平均响应时间</div>
+                        <div class="popover-content-right">所有访客询问和客服回复时间间隔的平均值</div>
+                    </div>
+                    <div class="popover-content">
+                        <div class="popover-content-left">30秒应答率</div>
+                        <div class="popover-content-right">响应时间在30秒以内的服务占比</div>
+                    </div>
+                    <div class="popover-content">
+                        <div class="popover-content-left">平均会话时长</div>
+                        <div class="popover-content-right">访客进入到会话结束时间间隔的平均值</div>
+                    </div>
+                    <div class="popover-content">
+                        <div class="popover-content-left">一次性解决率</div>
+                        <div class="popover-content-right">统计周期内，访客未二次来访的会话与总会话数的比值，此数据有一定时间延迟</div>
+                    </div>
+                    <div class="popover-content">
+                        <div class="popover-content-left">相对满意度</div>
+                        <div class="popover-content-right">满意数量和评价数量的比值</div>
+                    </div>
+                </div>
+            </Title>
         </div>
         <div class="table"  v-loading="loading">
             <el-table
@@ -99,5 +126,16 @@
         text-align: right;
 
         margin-top: 40px;
+    }
+    .popover-content{
+        padding-bottom: 30px;
+    }
+    .popover-content-left{
+        width: 30%;
+        float: left;
+    }
+    .popover-content-right{
+        width: 70%;
+        float: left;
     }
 </style>

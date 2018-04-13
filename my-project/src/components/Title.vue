@@ -4,10 +4,10 @@
         <h3>{{title}}
             <el-popover
                 ref="popover"
-                placement="top-start"
-                title="标题"
-                width="200"
+                placement="bottom-end"
+                width="600"
                 trigger="hover"
+                :visible-arrow="false"
                 content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
                 <slot></slot>
             </el-popover>
@@ -37,7 +37,7 @@
   }
 </script>
 
-<style scoped>
+<style>
     h3{
         font-weight: 200;
         font-size: 21px;
@@ -53,5 +53,8 @@
         margin-bottom: 25px;
         display: flex;
         justify-content: space-between;
+    }
+    .el-popover--plain{
+        margin-left: 200px;
     }
 </style>

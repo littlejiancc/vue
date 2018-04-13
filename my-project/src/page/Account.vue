@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import AccountInfo from "../components/AccountInfo";
-import AccountLog from "../components/AccountLog";
+import AccountInfo from "./AccountInfo";
+import AccountLog from "./AccountLog";
 
   export default {
       components:{AccountInfo,AccountLog},

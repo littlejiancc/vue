@@ -7,7 +7,7 @@
           <li>下载中心</li>
           <li>消息中心</li>
           <li>
-            <el-dropdown trigger="click">
+            <el-dropdown trigger="click"   @command="handleCommand">
                 <span class="el-dropdown-link">
                     超级管理员<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
@@ -15,7 +15,7 @@
                     <el-dropdown-item>切换为客服模式</el-dropdown-item>
                     <el-dropdown-item>个人信息设置</el-dropdown-item>
                     <el-dropdown-item>企业帐户管理</el-dropdown-item>
-                    <el-dropdown-item>退出</el-dropdown-item>
+                    <el-dropdown-item  command="loginOut">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
           </li>
@@ -30,6 +30,15 @@
     methods:{
         isCollapseClick(){
             this.$emit("isCollapseClick");
+        },
+        loginOut(){
+            sessionStorage.removeItem("token");
+            this.$router.push("/login");
+        },
+        handleCommand(command) {
+            if(command == "loginOut"){
+                this.loginOut();
+            }
         }
     },
     props:["isCollapse"],
