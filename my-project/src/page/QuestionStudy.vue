@@ -1,7 +1,18 @@
 <template>
   <div>
     <div style="margin: 40px">
-        <Title>问题学习</Title>
+        <Title title="问题学习">
+            <div>
+                <div class="popover-content">
+                    <div class="popover-content-left">问题</div>
+                    <div class="popover-content-right">访客提问的问题</div>
+                </div>
+                <div class="popover-content">
+                    <div class="popover-content-left">提问时间</div>
+                    <div class="popover-content-right">访客提问问题的时间</div>
+                </div>
+            </div>
+        </Title>
     </div>
       <div class="btn-delete">
           <el-button type="primary" icon="el-icon-delete" :disabled="delDisable"></el-button>
@@ -106,5 +117,16 @@ import Title from "../components/Title";
     }
     .btn-delete{
         padding-left: 40px;
+    }
+    .popover-content{
+        padding-bottom: 30px;
+    }
+    .popover-content-left{
+        width: 30%;
+        float: left;
+    }
+    .popover-content-right{
+        width: 70%;
+        float: left;
     }
 </style>

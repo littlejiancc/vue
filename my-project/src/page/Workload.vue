@@ -2,37 +2,37 @@
   <div>
     <div>
         <Title showDate showAllService showExportData title="工作量报表">
-            <div>
-                <div class="popover-content">
-                    <div class="popover-content-left">接入会话量</div>
-                    <div class="popover-content-right">接入的会话量，包含访客来访和主动发起会话两种情况</div>
-                </div>
-                <div class="popover-content">
-                    <div class="popover-content-left">未回复会话量</div>
-                    <div class="popover-content-right">有访客咨询，但客服未回复即离开的会话数量</div>
-                </div>
-                <div class="popover-content">
-                    <div class="popover-content-left">无效会话量</div>
-                    <div class="popover-content-right">访客未发消息即离开的会话数量</div>
-                </div>
-                <div class="popover-content">
-                    <div class="popover-content-left">在线总时长</div>
-                    <div class="popover-content-right">所选时段内客服在线状态的累计时长</div>
-                </div>
-                <div class="popover-content">
-                    <div class="popover-content-left">挂起总时长</div>
-                    <div class="popover-content-right">所选时间段内客服挂起状态的累计时长</div>
-                </div>
-                <div class="popover-content">
-                    <div class="popover-content-left">小休总时长</div>
-                    <div class="popover-content-right">所选时间段内客服小休状态的累计时长</div>
-                </div>
-            </div>
+
 
         </Title>
     </div>
 
-      <div class="table"  v-loading="loading">
+      <div class="table"  v-loading="loading"><div>
+          <div class="popover-content">
+              <div class="popover-content-left">接入会话量</div>
+              <div class="popover-content-right">接入的会话量，包含访客来访和主动发起会话两种情况</div>
+          </div>
+          <div class="popover-content">
+              <div class="popover-content-left">未回复会话量</div>
+              <div class="popover-content-right">有访客咨询，但客服未回复即离开的会话数量</div>
+          </div>
+          <div class="popover-content">
+              <div class="popover-content-left">无效会话量</div>
+              <div class="popover-content-right">访客未发消息即离开的会话数量</div>
+          </div>
+          <div class="popover-content">
+              <div class="popover-content-left">在线总时长</div>
+              <div class="popover-content-right">所选时段内客服在线状态的累计时长</div>
+          </div>
+          <div class="popover-content">
+              <div class="popover-content-left">挂起总时长</div>
+              <div class="popover-content-right">所选时间段内客服挂起状态的累计时长</div>
+          </div>
+          <div class="popover-content">
+              <div class="popover-content-left">小休总时长</div>
+              <div class="popover-content-right">所选时间段内客服小休状态的累计时长</div>
+          </div>
+      </div>
           <el-table
               :data="tableData"
               style="width: 100%"

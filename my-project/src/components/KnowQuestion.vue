@@ -33,7 +33,7 @@
               >
               </el-table-column>
               <el-table-column
-                  prop="knowledgePointId"
+                  prop="point"
                   label="归属知识点"
               >
               </el-table-column>
@@ -94,7 +94,7 @@
                   <el-input type="textarea" v-model="ruleForm.answer" placeholder="输入标准答案"></el-input>
               </el-form-item>
               <el-form-item label="所属知识点" class="input-add">
-                  <el-select v-model="value" clearable  placeholder="请选择">
+                  <el-select v-model="value" clearable  placeholder="请选择" @change="pointSelectedChange">
                       <el-option
                           v-for="item in options"
                           :key="item.value"
@@ -142,9 +142,11 @@
               loading:false,
               dialogFormVisible:false,
               multipleSelection: [],
+              questionId:[],
               delDisable:true,
               label:'',
               options: [],
+              pointId: '',
               value: '',
               simQuestion:[{value:""}],
               ruleForm: {
@@ -168,7 +170,9 @@
           }
       },
       mounted(){
+          this.getPointList();
           this.getQuestionList();
+
       },
       methods: {
           addSimQuestionClick(){
@@ -190,12 +194,15 @@
             this.dialogFormVisible = true;
             this.simQuestion = [{value:""}];
             this.value = '';
-            this.getPointList();
+
           },
           editQuestion(row){
 
           },
           deleteQuestion(row){
+              console.log(row.id);
+              this.questionId.push(row.id);
+              console.log(this.questionId);
 
           },
           handleSelectionChange(val) {
@@ -204,6 +211,10 @@
               if (this.multipleSelection.length !=0){
                   this.delDisable = false;
                   this.label = '已选中'+this.multipleSelection.length+'项';
+                  for (let index in this.multipleSelection){
+                      console.log(this.multipleSelection[index].id)
+                      this.questionId = this.multipleSelection.map(e=>e.id);
+                  }
               }else {
                   this.delDisable = true;
                   this.label = '';
@@ -213,6 +224,7 @@
               console.log(this.simQuestion);
               const simQuestion = this.simQuestion.map(e=>e.value);
               console.log(simQuestion);
+              console.log(this.pointId);
               const token = sessionStorage.getItem("token");
               let status = 0;
               let startTime;
@@ -223,7 +235,7 @@
                   startTime = this.ruleForm.date[0];
                   endTime = this.ruleForm.date[1];
               }
-              const data = {title:this.ruleForm.title,content:this.ruleForm.content,answer:this.ruleForm.answer,status:status,startTime:startTime,endTime:endTime}
+              const data = {title:this.ruleForm.title,content:this.ruleForm.content,answer:this.ruleForm.answer,status:status,startTime:startTime,endTime:endTime,simQuestion,knowledgePointId:this.pointId}
               let url = this.rootUrl+'/point/update';
               if(this.id == 0)
                   url =this.rootUrl+'/question/add';
@@ -236,6 +248,7 @@
                   console.log(res);
                   if (res.data.code == '200'){
                       this.dialogFormVisible = false;
+                      this.$refs['ruleForm'].resetFields();
                       this.$message({
                           message: '保存成功！',
                           type: 'success'
@@ -257,7 +270,6 @@
                       return false;
                   }
                   this.saveQuestion();
-                  this.$refs[formName].resetFields();
                   return true;
               });
           },
@@ -300,9 +312,8 @@
                                   result.staQuestionList[index].status = '有效';
                               }
                           }
-                          console.log(result.staQuestionList[index].knowledgePointId);
-                          if(!result.staQuestionList[index].knowledgePointId ){
-                              result.staQuestionList[index].knowledgePointId = '--'
+                          if(!result.staQuestionList[index].point){
+                              result.staQuestionList[index].point = '--'
                           }
                       }
                       this.tableData = result.staQuestionList;
@@ -332,6 +343,7 @@
                           result.pointList[index].label = result.pointList[index].title;
                       }
                       this.options = result.pointList;
+                      console.log(this.options.length);
                   }else {
                       this.options = [];
                   }
@@ -340,6 +352,11 @@
                   this.$message.error('服务器错误！');
               })
           },
+          pointSelectedChange(value){
+              this.pointId = value;
+
+          }
+
       }
   }
 </script>
