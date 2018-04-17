@@ -346,7 +346,6 @@ export default {
               cancelButtonText: '取消',
               type: 'warning'
           }).then(() => {
-              console.log("222222222");
               this.$http({
                   url:this.rootUrl+'/user/delete',
                   method:"post",

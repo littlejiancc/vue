@@ -11,7 +11,7 @@
           </div>
       </div>
       <div class="btn-delete">
-          <el-button type="primary" icon="el-icon-delete" :disabled="delDisable"></el-button>
+          <el-button type="primary" icon="el-icon-delete" :disabled="delDisable" @click="deleteBtnMore"></el-button>
           <label class="selected-label">{{label}}</label>
       </div>
       <div class="table"  v-loading="loading">
@@ -59,7 +59,7 @@
               >
                   <template slot-scope="scope">
                       <el-button  @click="editQuestion(scope.row)" type="text" size="small">编辑</el-button>
-                      <el-button v-if="scope.row.role!='超级管理员'" @click="deleteQuestion(scope.row)" type="text" size="small">删除</el-button>
+                      <el-button v-if="scope.row.role!='超级管理员'" @click="deleteBtn(scope.row)" type="text" size="small">删除</el-button>
                   </template>
               </el-table-column>
           </el-table>
@@ -182,7 +182,7 @@
               this.simQuestion.splice(index,1);
           },
           searchClick(){
-
+            this.selectQuestion();
           },
           pageSizeChange(val){
               this.perPage = val;
@@ -199,10 +199,50 @@
           editQuestion(row){
 
           },
-          deleteQuestion(row){
+          deleteBtn(row){
+              this.questionId = [];
               console.log(row.id);
               this.questionId.push(row.id);
               console.log(this.questionId);
+              this.deleteQuestion(this.questionId);
+          },
+          deleteBtnMore(){
+              this.deleteQuestion(this.questionId);
+          },
+          deleteQuestion(value){
+              const token = sessionStorage.getItem("token");
+              const data = {ids:value};
+              console.log(data);
+              this.$confirm('此操作将永久删除问题 是否继续?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning'
+              }).then(() =>{
+                  this.$http({
+                      url:this.rootUrl+'/question/delete',
+                      method:"post",
+                      headers:{"Authorization":'Bearer '+token},
+                      data:data
+                  }).then(res=>{
+                      console.log(res);
+                      if (res.data.code == '200'){
+                          this.$message({
+                              message: '删除成功！',
+                              type: 'success'
+                          });
+                          this.getQuestionList();
+                      }else{
+                          this.$message.error('删除失败！');
+                      }
+                  }).catch(function (err) {
+                      console.log(err);
+                  });
+              }).catch(() => {
+                      this.$message({
+                          type: 'info',
+                          message: '已取消删除'
+                      });
+                  });
 
           },
           handleSelectionChange(val) {
@@ -236,7 +276,8 @@
                   endTime = this.ruleForm.date[1];
               }
               const data = {title:this.ruleForm.title,content:this.ruleForm.content,answer:this.ruleForm.answer,status:status,startTime:startTime,endTime:endTime,simQuestion,knowledgePointId:this.pointId}
-              let url = this.rootUrl+'/point/update';
+                console.log(data);
+              let url = this.rootUrl+'/question/update';
               if(this.id == 0)
                   url =this.rootUrl+'/question/add';
               this.$http({
@@ -355,6 +396,48 @@
           pointSelectedChange(value){
               this.pointId = value;
 
+          },
+          selectQuestion(){
+              const token = sessionStorage.getItem("token");
+              this.loading = true;
+              const {page,perPage} = this;
+              this.$http({
+                  url:this.rootUrl+'/question/select',
+                  method:"post",
+                  headers:{"Authorization":'Bearer '+token},
+                  data:{keywords:this.searchInput,page,perPage}
+              }).then(res=>{
+                  this.loading = false;
+                  if (res.data.code == '200') {
+                      const formatString = 'YYYY-MM-DD HH:mm:ss';
+                      const result = res.data.result;
+                      for (let index in result.staQuestionList) {
+                          result.staQuestionList[index].createTime = moment(result.staQuestionList[index].createTime).format(formatString)
+                          if (result.staQuestionList[index].status == 1) {
+                              result.staQuestionList[index].period = '永久有效';
+                              result.staQuestionList[index].status = '有效';
+                          } else {
+                              result.staQuestionList[index].period = moment(result.staQuestionList[index].startTime).format(formatString) + '~' + moment(result.staQuestionList[index].endTime).format(formatString);
+                              if (moment(new Date()) > moment(result.staQuestionList[index].endTime)) {
+                                  result.staQuestionList[index].status = '失效';
+                              } else {
+                                  result.staQuestionList[index].status = '有效';
+                              }
+                          }
+                          if (!result.staQuestionList[index].point) {
+                              result.staQuestionList[index].point = '--'
+                          }
+                          this.tableData = result.staQuestionList;
+                          this.total = result.total;
+                      }
+                  }else {
+                          this.tableData = null;
+                          this.total = 0;
+                  }
+              }).catch(function (err) {
+                  console.log(err);
+                  this.$message.error('服务器错误！');
+              })
           }
 
       }
