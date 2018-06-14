@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="btn-delete">
-            <el-button type="primary" icon="el-icon-delete" :disabled="delDisable"></el-button>
+            <el-button type="primary" icon="el-icon-delete" :disabled="delDisable" @click="deleteMore"></el-button>
             <label class="selected-label">{{label}}</label>
         </div>
         <div class="table"  v-loading="loading">
@@ -54,7 +54,7 @@
                 >
                     <template slot-scope="scope">
                         <el-button  @click="editPoint(scope.row)" type="text" size="small">编辑</el-button>
-                        <el-button  @click="deletePoint(scope.row)" type="text" size="small">删除</el-button>
+                        <el-button  @click="deleteOne(scope.row)" type="text" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -79,9 +79,9 @@
                 <el-form-item label="知识点内容" prop="content" class="input-add">
                     <el-input type="textarea" v-model="ruleForm.content"></el-input>
                 </el-form-item>
-                <el-form-item label="相关问题" class="input-add">
+               <!-- <el-form-item label="相关问题" class="input-add">
                     <el-button type="primary"> 关联已有问题</el-button>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="有效期" class="input-add" prop="period">
                     <el-radio-group v-model="ruleForm.period">
                         <el-radio label="永久有效"></el-radio>
@@ -127,6 +127,7 @@
                 loading:false,
                 dialogFormVisible:false,
                 multipleSelection: [],
+                pointId: [],
                 delDisable:true,
                 label:'',
                 ruleForm: {
@@ -151,24 +152,67 @@
 
         methods: {
             searchClick(){
-
+                this.selectPoint();
             },
             pageSizeChange(val){
                 this.perPage = val;
+                this.getPointList();
             },
             currentPageChange(val){
                 this.page = val;
+                this.getPointList();
             },
             addPoint(){
                 this.dialogFormVisible = true;
+                this.id = 0;
             },
             editPoint(row){
                 this.id = row.id;
                 this.dialogFormVisible = true;
                 this.getPoint();
             },
-            deletePoint(row){
-
+            deleteOne(row){
+                this.pointId = [];
+                this.pointId.push(row.id);
+                this.deletePoint(this.pointId);
+            },
+            deleteMore(){
+                this.deletePoint(this.pointId);
+            },
+            deletePoint(value){
+                const token = sessionStorage.getItem("token");
+                const data = {ids:value};
+                console.log(data);
+                this.$confirm('此操作将永久删除知识点是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() =>{
+                    this.$http({
+                        url:this.rootUrl+'/point/delete',
+                        method:"post",
+                        headers:{"Authorization":'Bearer '+token},
+                        data:data
+                    }).then(res=>{
+                        console.log(res);
+                        if (res.data.code == '200'){
+                            this.$message({
+                                message: '删除成功！',
+                                type: 'success'
+                            });
+                            this.getPointList();
+                        }else{
+                            this.$message.error('删除失败！');
+                        }
+                    }).catch(function (err) {
+                        console.log(err);
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             },
             //关闭弹框的事件
             closeDialog(formName){
@@ -185,16 +229,16 @@
                         return false;
                     }
                     this.savePoint();
-                    this.$refs[formName].resetFields();
                     return true;
                 });
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-                console.log(this.multipleSelection);
                 if (this.multipleSelection.length !=0){
                     this.delDisable = false;
                     this.label = '已选中'+this.multipleSelection.length+'项';
+                    this.pointId = this.multipleSelection.map(e=>e.id);
+                    console.log(this.pointId);
                 }else {
                     this.delDisable = true;
                     this.label = '';
@@ -211,8 +255,7 @@
                     startTime = this.ruleForm.date[0];
                     endTime = this.ruleForm.date[1];
                 }
-                const data = {title:this.ruleForm.title,content:this.ruleForm.content,status:status,startTime:startTime,endTime:endTime}
-                console.log(data);
+                let data = {id:this.id,title:this.ruleForm.title,content:this.ruleForm.content,status:status,startTime:startTime,endTime:endTime}
                 let url = this.rootUrl+'/point/update';
                 if(this.id == 0)
                     url =this.rootUrl+'/point/add';
@@ -229,7 +272,8 @@
                             message: '保存成功！',
                             type: 'success'
                         });
-                        this.getUserList();
+                        this.$refs['ruleForm'].resetFields();
+                        this.getPointList();
                     }else if(res.data.code == '209'){
                         this.$message.error('此标题已存在！');
                     }else {
@@ -253,6 +297,7 @@
                     if (res.data.code == '200') {
                         const formatString = 'YYYY-MM-DD HH:mm:ss';
                         const result = res.data.result;
+                        console.log(result);
                         for (let index in result.pointList) {
                             result.pointList[index].createTime = moment(result.pointList[index].createTime).format(formatString)
                             if (result.pointList[index].status == 1) {
@@ -309,6 +354,45 @@
 
                 });
             },
+            selectPoint(){
+                const token = sessionStorage.getItem("token");
+                const {page,perPage} = this;
+                this.$http({
+                    url:this.rootUrl+'/point/search',
+                    method:"post",
+                    headers:{"Authorization":'Bearer '+token},
+                    data:{page,perPage,keywords:this.searchInput}
+                }).then(res=>{
+                    this.loading = false;
+                    if (res.data.code == '200') {
+                        const formatString = 'YYYY-MM-DD HH:mm:ss';
+                        const result = res.data.result;
+                        console.log(result);
+                        for (let index in result.pointList) {
+                            result.pointList[index].createTime = moment(result.pointList[index].createTime).format(formatString)
+                            if (result.pointList[index].status == 1) {
+                                result.pointList[index].period = '永久有效';
+                                result.pointList[index].status = '有效';
+                            } else {
+                                result.pointList[index].period = moment(result.pointList[index].startTime).format(formatString)+'~'+moment(result.pointList[index].endTime).format(formatString);
+                                if (moment(new Date())>moment(result.pointList[index].endTime)){
+                                    result.pointList[index].status = '失效';
+                                }else {
+                                    result.pointList[index].status = '有效';
+                                }
+                            }
+                        }
+                        this.tableData = result.pointList;
+                        this.total = result.total
+                    }else {
+                        this.tableData = null;
+                        this.total = 0;
+                    }
+                }).catch(function (err) {
+                    console.log(err);
+                    this.$message.error('服务器错误！');
+                })
+            }
         }
     }
 </script>

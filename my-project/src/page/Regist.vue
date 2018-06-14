@@ -185,7 +185,7 @@ import SignMain from "../components/SignMain";
                     if (data.data.code == '200'){
                         const token = data.data.result.token;
                         sessionStorage.setItem("token",data.data.token);
-                        this.$router.push('/');
+                        this.$router.push('/index');
                     }else {
                         this.$message.error('帐号、密码或域名有误!');
                         this.loading3 = false;
@@ -194,7 +194,8 @@ import SignMain from "../components/SignMain";
                     console.log(err);
                     this.loading3 = false;
                 });
-            }
+            },
+
         },
         computed:{
             disabled(){

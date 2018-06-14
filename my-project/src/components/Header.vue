@@ -12,9 +12,9 @@
                     超级管理员<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>切换为客服模式</el-dropdown-item>
+                    <!--<el-dropdown-item>切换为客服模式</el-dropdown-item>
                     <el-dropdown-item>个人信息设置</el-dropdown-item>
-                    <el-dropdown-item>企业帐户管理</el-dropdown-item>
+                    <el-dropdown-item>企业帐户管理</el-dropdown-item>-->
                     <el-dropdown-item  command="loginOut">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>

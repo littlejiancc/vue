@@ -143,7 +143,7 @@ export default {
         rules: {
             account: [
                 {required: true, message: '请输入账号', trigger: 'blur'},
-                { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+                { min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur' }
             ],
             name: [
                 {required: true, message: '请输入姓名', trigger: 'blur'}
@@ -178,6 +178,9 @@ export default {
   },
   methods: {
       addUser(){
+          this.accountDisabled=false,
+          this.passwordDisabled=false,
+          this.roleDisabled=false,
           this.dialogFormVisible = true;
           this.id = 0;
       },

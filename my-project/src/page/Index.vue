@@ -256,9 +256,9 @@ require('highcharts/modules/exporting')(Highcharts)
     }
 
     .box-card {
-        width: 16%;
+        width: 18%;
         float: left;
-        margin-right: 20px;
+        margin-right: 10px;
     }
     .popover-content{
         padding-bottom: 30px;

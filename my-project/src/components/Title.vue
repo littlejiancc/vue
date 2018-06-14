@@ -17,7 +17,7 @@
         <div>
             <el-button v-if="showDate"   icon="el-icon-date">昨天<i class="el-icon-caret-bottom"></i></el-button>
             <el-button v-if="showAllService" >所有接待客服<i class="el-icon-caret-bottom"></i></el-button>
-            <el-button v-if="showExportData" type="primary" icon="el-icon-download">导出当前数据</el-button>
+            <!--<el-button v-if="showExportData" type="primary" icon="el-icon-download">导出当前数据</el-button>-->
         </div>
 
 

@@ -3,7 +3,7 @@
       <div class="title">
           <span @click="checkedClick(1)" :class="num==1?'checked':''">所有人</span>
           <span @click="checkedClick(2)" :class="num==2?'checked':''">分组</span>
-          <span @click="checkedClick(3)" :class="num==3?'checked':''">角色设置</span>
+          <!--<span @click="checkedClick(3)" :class="num==3?'checked':''">角色设置</span>-->
       </div>
       <component :is="currentView" ></component> 
   </div>

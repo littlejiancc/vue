@@ -2,7 +2,7 @@
   <div>
       <div class="title">
           <span @click="checkedClick(1)" :class="num==1?'checked':''">企业账户信息</span>
-          <span @click="checkedClick(2)" :class="num==2?'checked':''">企业操作日志</span>
+        <!--  <span @click="checkedClick(2)" :class="num==2?'checked':''">企业操作日志</span>-->
       </div>
       <component :is="currentView" ></component> 
   </div>

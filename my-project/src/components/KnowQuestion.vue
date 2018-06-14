@@ -186,9 +186,11 @@
           },
           pageSizeChange(val){
               this.perPage = val;
+              this.getQuestionList();
           },
           currentPageChange(val){
               this.page = val;
+              this.getQuestionList();
           },
           addQuestion(){
             this.dialogFormVisible = true;
@@ -243,7 +245,6 @@
                           message: '已取消删除'
                       });
                   });
-
           },
           handleSelectionChange(val) {
               this.multipleSelection = val;

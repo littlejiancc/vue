@@ -141,7 +141,8 @@
                       this.getAccountInfo();
                       return true;
                   }else{
-                      return
+                      this.updatePwd();
+                      return true;
                   }
 
               });
@@ -185,6 +186,7 @@
                           message: '修改成功',
                           type: 'success'
                       });
+                      this.getAccountInfo();
                   }else {
                       this.$message.error('修改失败');
                   }
@@ -192,8 +194,33 @@
                   console.log(err);
                   this.$message.error('服务器错误！');
               })
-          }
-
+          },
+          updatePwd(){
+              const token = sessionStorage.getItem("token");
+              const data = {oldPassword:this.ruleForm2.oldPass,newPassword:this.ruleForm2.newPass};
+              this.$http({
+                  url:this.rootUrl+'/pwd/update',
+                  method:"post",
+                  headers:{"Authorization":'Bearer '+token},
+                  data:data,
+              }).then(res=>{
+                  console.log(res)
+                  if (res.data.code == '200') {
+                      this.$message({
+                          message: '密码修改成功',
+                          type: 'success'
+                      });
+                      this.$refs['ruleForm2'].resetFields();
+                  }else if(res.data.code == '228'){
+                      this.$message.error('原密码不匹配');
+                  }else{
+                      this.$message.error('密码修改失败');
+                  }
+              }).catch(function (err) {
+                  console.log(err);
+                  this.$message.error('服务器错误！');
+              })
+          },
       },
       computed:{
           disabledPassword(){

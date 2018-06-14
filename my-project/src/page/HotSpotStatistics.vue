@@ -82,6 +82,16 @@ import Title from "../components/Title";
 
 
       },
+      methods: {
+          pageSizeChange(val){
+              this.perPage = val;
+              this.getPointList();
+          },
+          currentPageChange(val){
+              this.page = val;
+              this.getPointList();
+          }
+    }
   }
 </script>
 

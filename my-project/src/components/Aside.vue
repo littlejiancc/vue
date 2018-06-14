@@ -27,7 +27,7 @@
             <span slot="title">知识库</span>
           </template>
             <el-menu-item index="/knowledge">知识库</el-menu-item>
-            <el-menu-item index="/workReport">相似词库</el-menu-item>
+           <!-- <el-menu-item index="/workReport">相似词库</el-menu-item>-->
             <el-menu-item index="/questionStudy">问题学习</el-menu-item>
             
         </el-submenu>
